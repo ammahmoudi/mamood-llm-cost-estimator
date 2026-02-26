@@ -10,6 +10,7 @@ It fetches live pricing from OpenRouter's public models endpoint and calculates 
 - Accurate token math: supports normal + cached prompt tokens.
 - Easy integration: clean Python API and simple CLI.
 - Fast repeated use: in-memory cache for model catalog data.
+- Flexible input: pass token counts directly or pass raw text and auto-estimate tokens.
 
 ## Installation
 
@@ -76,11 +77,31 @@ mamood-cost \
 	--cached-input-tokens 300
 ```
 
+Use text instead of token counts:
+
+```bash
+mamood-cost \
+	--model openai/gpt-4o-mini \
+	--input-text "Write a short summary of this transcript" \
+	--output-text "Here is your concise summary..." \
+	--chars-per-token 4
+```
+
+Mix mode (text for input, numeric for output):
+
+```bash
+mamood-cost \
+	--model openai/gpt-4o-mini \
+	--input-text "Tell me 5 ideas for a startup" \
+	--output-tokens 450
+```
+
 ## Notes
 
 - Pricing source: `https://openrouter.ai/api/v1/models`.
 - API key is optional for pricing fetch; if needed, set `OPENROUTER_API_KEY` or pass `--api-key`.
 - Default model-catalog cache TTL is 1 hour (`cache_ttl_seconds=3600`).
+- Text-based token counting uses an estimator (`chars_per_token`, default `4.0`).
 
 ## Development
 
