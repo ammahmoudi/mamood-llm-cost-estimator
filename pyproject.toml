@@ -1,0 +1,31 @@
+[project]
+name = "mamood-llm-cost-estimator"
+version = "0.1.0"
+description = "Realtime OpenRouter LLM API call cost estimator"
+readme = "README.md"
+authors = [
+    { name = "Amirhossein Mahmoudi", email = "am.mahmoudi@outlook.com" }
+]
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = []
+keywords = ["llm", "openrouter", "cost", "token", "estimator"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+]
+
+[project.urls]
+Homepage = "https://github.com/ammahmoudi/mamood_llm_cost_estimator"
+Repository = "https://github.com/ammahmoudi/mamood_llm_cost_estimator"
+
+[project.scripts]
+mamood-cost = "mamood_llm_cost_estimator.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.8.13,<0.9.0"]
+build-backend = "uv_build"
