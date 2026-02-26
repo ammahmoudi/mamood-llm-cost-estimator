@@ -6,7 +6,7 @@ import os
 
 from .models import TokenUsage
 from .openrouter import OpenRouterClient, OpenRouterError
-from .tokens import estimate_tokens_from_text
+from .tokens import count_tokens
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -43,6 +43,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Token estimation ratio when using text (default: 4.0 chars/token)",
     )
     parser.add_argument(
+        "--tokenizer",
+        choices=["tiktoken", "heuristic"],
+        default="tiktoken",
+        help="Tokenizer backend for --input-text/--output-text (default: tiktoken)",
+    )
+    parser.add_argument(
         "--cached-input-tokens",
         type=int,
         default=0,
@@ -67,13 +73,21 @@ def main() -> int:
     input_tokens = (
         args.input_tokens
         if args.input_tokens is not None
-        else estimate_tokens_from_text(args.input_text, chars_per_token=args.chars_per_token)
+        else count_tokens(
+            args.input_text,
+            model=args.model,
+            tokenizer=args.tokenizer,
+            chars_per_token=args.chars_per_token,
+        )
     )
     output_tokens = (
         args.output_tokens
         if args.output_tokens is not None
-        else estimate_tokens_from_text(
-            args.output_text, chars_per_token=args.chars_per_token
+        else count_tokens(
+            args.output_text,
+            model=args.model,
+            tokenizer=args.tokenizer,
+            chars_per_token=args.chars_per_token,
         )
     )
 
@@ -93,6 +107,7 @@ def main() -> int:
     payload = result.as_dict()
     payload["input_tokens"] = usage.input_tokens
     payload["output_tokens"] = usage.output_tokens
+    payload["tokenizer"] = args.tokenizer
     print(json.dumps(payload, indent=2))
     return 0
 

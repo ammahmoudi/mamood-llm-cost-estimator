@@ -101,7 +101,19 @@ mamood-cost \
 - Pricing source: `https://openrouter.ai/api/v1/models`.
 - API key is optional for pricing fetch; if needed, set `OPENROUTER_API_KEY` or pass `--api-key`.
 - Default model-catalog cache TTL is 1 hour (`cache_ttl_seconds=3600`).
-- Text-based token counting uses an estimator (`chars_per_token`, default `4.0`).
+- Text-based token counting supports two backends:
+	- `tiktoken` (default): model-aware where possible; falls back to a standard encoding.
+	- `heuristic`: fast approximation using `chars_per_token` (default `4.0`).
+
+Use explicit tokenizer selection:
+
+```bash
+mamood-cost \
+	--model openai/gpt-4o-mini \
+	--input-text "hello world" \
+	--output-text "done" \
+	--tokenizer tiktoken
+```
 
 ## Development
 

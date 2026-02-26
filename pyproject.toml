@@ -1,6 +1,6 @@
 [project]
 name = "mamood-llm-cost-estimator"
-version = "0.1.1"
+version = "0.1.2"
 description = "Realtime OpenRouter LLM API call cost estimator"
 readme = "README.md"
 authors = [
@@ -8,7 +8,9 @@ authors = [
 ]
 license = "MIT"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "tiktoken>=0.9.0",
+]
 keywords = ["llm", "openrouter", "cost", "token", "estimator"]
 classifiers = [
     "Development Status :: 3 - Alpha",
